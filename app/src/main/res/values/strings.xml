@@ -2,4 +2,6 @@
     <string name="app_name">Merge PDF</string>
     <string name="about_setting">About</string>
     <string name="merge_setting">Merge Setting</string>
+    <string name="add_source">Add source</string>
+    <string name="merge_now">Merge Now</string>
 </resources>
