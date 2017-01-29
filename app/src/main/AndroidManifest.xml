@@ -29,7 +29,7 @@
 
         <activity
             android:name=".MergeSettingActivity"
-            android:label="@string/title_activity_merge_setting"
+            android:label="@string/merge_setting"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
