@@ -2,6 +2,7 @@ package com.practical_developer.mergepdf;
 
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.practical_developer.mergepdf.dummy.DummyContent.DummyItem;
 import com.woxthebox.draglistview.DragItemAdapter;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
@@ -21,22 +23,18 @@ import java.util.ArrayList;
  * TODO: Replace the implementation with code for your data type.
  */
 public class FileItemRecyclerViewAdapter extends DragItemAdapter<Pair<Long, String>, FileItemRecyclerViewAdapter.ViewHolder> {
-    private int mLayoutId;
-    private int mGrabHandleId;
-    private boolean mDragOnLongPress;
-
-    public FileItemRecyclerViewAdapter(ArrayList<Pair<Long, String>> list, int layoutId, int grabHandleId, boolean dragOnLongPress) {
-        mLayoutId = layoutId;
-        mGrabHandleId = grabHandleId;
-        mDragOnLongPress = dragOnLongPress;
+    public FileItemRecyclerViewAdapter(ArrayList<Pair<Long, String>> list) {
         setHasStableIds(true);
         setItemList(list);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(mLayoutId , parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(
+            R.layout.file_item,
+            parent,
+            false
+        );
         return new ViewHolder(view);
     }
 
@@ -54,31 +52,47 @@ public class FileItemRecyclerViewAdapter extends DragItemAdapter<Pair<Long, Stri
         return mItemList.get(position).first;
     }
 
-    public class ViewHolder extends DragItemAdapter.ViewHolder {
+    public class ViewHolder extends DragItemAdapter.ViewHolder
+        implements View.OnClickListener {
         public final View mView;
         public final ImageView mDraggable;
         public final TextView mFileName;
         public final TextView mFileType;
         public final ImageView mDeleteFile;
+        private static final boolean mDragOnLongPress = false;
+        private static final String POSITION_TAG = "ViewHolder Position";
 
         public ViewHolder(View view) {
-            super(view, mGrabHandleId, mDragOnLongPress);
+            super(view, R.id.draggable_file_item, mDragOnLongPress);
+
             mView = view;
-            mDraggable = (ImageView) view.findViewById(R.id.draggable);
+            mDraggable = (ImageView) view.findViewById(R.id.draggable_file_item);
             mFileName = (TextView) view.findViewById(R.id.file_item_name);
             mFileType = (TextView) view.findViewById(R.id.file_item_type);
             mDeleteFile = (ImageView) view.findViewById(R.id.remove_file_item);
+
+            mDeleteFile.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int pos = this.getAdapterPosition();
+            Log.d(
+                    POSITION_TAG,
+                    String.format(
+                            Locale.US,
+                            "click at AP%d LP%d",
+                            pos,
+                            this.getLayoutPosition()
+                    )
+            );
+            mItemList.remove(pos);
+            notifyItemRemoved(pos);
+            notifyItemChanged(pos, mItemList.size());
         }
 
         @Override
         public void onItemClicked(View view) {
-            Toast.makeText(view.getContext(), "Item clicked", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public boolean onItemLongClicked(View view) {
-            Toast.makeText(view.getContext(), "Item long clicked", Toast.LENGTH_SHORT).show();
-            return true;
         }
     }
 }

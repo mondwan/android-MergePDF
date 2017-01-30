@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class FileListFragment extends Fragment {
 
     private DragListView mDragListView;
     private ArrayList<Pair<Long, String>> mItemArray;
+    private static final String FILE_LIST_TAG = "File List";
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -48,33 +50,23 @@ public class FileListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater,
+            ViewGroup container,
+            Bundle savedInstanceState
+    ) {
         View view = inflater.inflate(R.layout.file_item_list, container, false);
 
         mDragListView = (DragListView) view.findViewById(R.id.file_list);
         mDragListView.getRecyclerView().setVerticalScrollBarEnabled(true);
-        mDragListView.setDragListListener(new DragListView.DragListListenerAdapter() {
-            @Override
-            public void onItemDragStarted(int position) {
-                Toast.makeText(mDragListView.getContext(), "Start - position: " + position, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onItemDragEnded(int fromPosition, int toPosition) {
-                if (fromPosition != toPosition) {
-                    Toast.makeText(mDragListView.getContext(), "End - position: " + toPosition, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         mItemArray = new ArrayList<>();
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 20; i++) {
             mItemArray.add(new Pair<>(Long.valueOf(i), "Item " + i));
         }
 
         mDragListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        FileItemRecyclerViewAdapter listAdapter = new FileItemRecyclerViewAdapter(mItemArray, R.layout.file_item, R.id.draggable, false);
+        FileItemRecyclerViewAdapter listAdapter = new FileItemRecyclerViewAdapter(mItemArray);
         mDragListView.setAdapter(listAdapter, true);
         mDragListView.setCanDragHorizontally(false);
 
