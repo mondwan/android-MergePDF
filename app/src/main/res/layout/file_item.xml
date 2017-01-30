@@ -7,7 +7,7 @@
               android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/draggable"
+        android:id="@+id/draggable_file_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:tint="@android:color/black"
@@ -16,6 +16,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/fab_margin"
         android:layout_marginLeft="@dimen/fab_margin"/>
 
     <TextView
@@ -24,9 +25,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceListItem"
         tools:text="FILE_ITEM_NAME"
-        android:layout_alignTop="@+id/draggable"
-        android:layout_toRightOf="@+id/draggable"
-        android:layout_toEndOf="@+id/draggable"
+        android:layout_alignTop="@+id/draggable_file_item"
+        android:layout_toRightOf="@+id/draggable_file_item"
+        android:layout_toEndOf="@+id/draggable_file_item"
+        android:layout_marginStart="@dimen/list_content_margin_left"
         android:layout_marginLeft="@dimen/list_content_margin_left"/>
 
     <ImageView
@@ -38,6 +40,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/list_content_margin_right"
         android:layout_marginRight="@dimen/list_content_margin_right"/>
 
     <TextView
@@ -47,8 +50,9 @@
         android:textAppearance="?attr/textAppearanceListItem"
         tools:text="FILE_ITEM_TYPE"
         android:layout_below="@+id/file_item_name"
-        android:layout_toRightOf="@+id/draggable"
-        android:layout_toEndOf="@+id/draggable"
+        android:layout_toRightOf="@+id/draggable_file_item"
+        android:layout_toEndOf="@+id/draggable_file_item"
+        android:layout_marginStart="@dimen/list_content_margin_left"
         android:layout_marginLeft="@dimen/list_content_margin_left"/>
 
 </RelativeLayout>
