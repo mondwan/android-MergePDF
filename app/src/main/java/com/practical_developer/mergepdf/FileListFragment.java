@@ -4,20 +4,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.practical_developer.mergepdf.dummy.DummyContent;
 import com.practical_developer.mergepdf.dummy.DummyContent.DummyItem;
 import com.woxthebox.draglistview.DragListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -78,7 +74,7 @@ public class FileListFragment extends Fragment {
         }
 
         mDragListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        FileItemRecyclerViewAdapter listAdapter = new FileItemRecyclerViewAdapter(mItemArray, R.layout.file_item, R.id.image, false);
+        FileItemRecyclerViewAdapter listAdapter = new FileItemRecyclerViewAdapter(mItemArray, R.layout.file_item, R.id.draggable, false);
         mDragListView.setAdapter(listAdapter, true);
         mDragListView.setCanDragHorizontally(false);
 

@@ -14,7 +14,6 @@ import com.practical_developer.mergepdf.dummy.DummyContent.DummyItem;
 import com.woxthebox.draglistview.DragItemAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
@@ -45,7 +44,8 @@ public class FileItemRecyclerViewAdapter extends DragItemAdapter<Pair<Long, Stri
     public void onBindViewHolder(final ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         String text = mItemList.get(position).second;
-        holder.mText.setText(text);
+        holder.mFileName.setText(text);
+        holder.mFileType.setText("PDF");
         holder.itemView.setTag(text);
     }
 
@@ -56,17 +56,18 @@ public class FileItemRecyclerViewAdapter extends DragItemAdapter<Pair<Long, Stri
 
     public class ViewHolder extends DragItemAdapter.ViewHolder {
         public final View mView;
-        public final ImageView mImageView;
-        public final TextView mIdView;
-        public final TextView mText;
-        public DummyItem mItem;
+        public final ImageView mDraggable;
+        public final TextView mFileName;
+        public final TextView mFileType;
+        public final ImageView mDeleteFile;
 
         public ViewHolder(View view) {
             super(view, mGrabHandleId, mDragOnLongPress);
             mView = view;
-            mImageView = (ImageView) view.findViewById(R.id.image);
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mText = (TextView) view.findViewById(R.id.content);
+            mDraggable = (ImageView) view.findViewById(R.id.draggable);
+            mFileName = (TextView) view.findViewById(R.id.file_item_name);
+            mFileType = (TextView) view.findViewById(R.id.file_item_type);
+            mDeleteFile = (ImageView) view.findViewById(R.id.remove_file_item);
         }
 
         @Override
