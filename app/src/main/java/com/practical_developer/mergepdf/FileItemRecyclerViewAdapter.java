@@ -21,7 +21,10 @@ import java.util.Locale;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class FileItemRecyclerViewAdapter extends DragItemAdapter<Pair<Long, String>, FileItemRecyclerViewAdapter.ViewHolder> {
+public class FileItemRecyclerViewAdapter extends DragItemAdapter<
+    Pair<Long, String>,
+    FileItemRecyclerViewAdapter.ViewHolder>
+{
     private FileItemAdapterCallback mFileItemAdapterCallback;
 
     public FileItemRecyclerViewAdapter(
