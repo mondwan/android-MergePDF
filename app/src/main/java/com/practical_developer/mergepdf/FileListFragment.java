@@ -9,9 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.practical_developer.mergepdf.dummy.DummyContent.DummyItem;
 import com.woxthebox.draglistview.DragListView;
 
 import java.util.ArrayList;
@@ -19,16 +17,15 @@ import java.util.ArrayList;
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link FileListFragmentCallbacks}
  * interface.
  */
 public class FileListFragment extends Fragment
     implements FileItemRecyclerViewAdapter.FileItemAdapterCallback {
 
-    private OnListFragmentInteractionListener mListener;
+    private FileListFragmentCallbacks mFileListFragmentCallback;
 
     private DragListView mDragListView;
-    private ArrayList<Pair<Long, String>> mItemArray;
     private static final String FILE_LIST_TAG = "File List";
 
     /**
@@ -36,13 +33,6 @@ public class FileListFragment extends Fragment
      * fragment (e.g. upon screen orientation changes).
      */
     public FileListFragment() {
-    }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static FileListFragment newInstance(int columnCount) {
-        FileListFragment fragment = new FileListFragment();
-        return fragment;
     }
 
     @Override
@@ -61,14 +51,9 @@ public class FileListFragment extends Fragment
         mDragListView = (DragListView) view.findViewById(R.id.file_list);
         mDragListView.getRecyclerView().setVerticalScrollBarEnabled(true);
 
-        mItemArray = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            mItemArray.add(new Pair<>(Long.valueOf(i), "Item " + i));
-        }
-
         mDragListView.setLayoutManager(new LinearLayoutManager(getContext()));
         FileItemRecyclerViewAdapter listAdapter = new FileItemRecyclerViewAdapter(
-            mItemArray,
+            mFileListFragmentCallback.getFileListSource(),
             this
         );
         mDragListView.setAdapter(listAdapter, true);
@@ -81,34 +66,31 @@ public class FileListFragment extends Fragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+        if (context instanceof FileListFragmentCallbacks) {
+            mFileListFragmentCallback = (FileListFragmentCallbacks) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+                    + " must implement FileListFragmentCallbacks");
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        mFileListFragmentCallback = null;
     }
 
     public boolean onDeleteFileItem(int pos) {
-        boolean ret = true;
-
-        try {
-            mItemArray.remove(pos);
-        } catch (IndexOutOfBoundsException e) {
-            ret = false;
-        }
-
-        return ret;
+        return mFileListFragmentCallback.onDeleteFileItem(pos);
     }
 
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+    public interface FileListFragmentCallbacks {
+        ArrayList<Pair<Long, String>> getFileListSource();
+        /**
+         * Define how to remove an item from the file list source
+         * @param position Position of the item which is going to be deleted
+         * @return True means deleted  successfully
+         */
+        boolean onDeleteFileItem(int position);
     }
 }

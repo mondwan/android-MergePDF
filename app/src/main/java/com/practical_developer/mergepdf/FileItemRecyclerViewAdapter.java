@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.practical_developer.mergepdf.FileListFragment.OnListFragmentInteractionListener;
+import com.practical_developer.mergepdf.FileListFragment.FileListFragmentCallbacks;
 import com.practical_developer.mergepdf.dummy.DummyContent.DummyItem;
 import com.woxthebox.draglistview.DragItemAdapter;
 
@@ -18,7 +18,7 @@ import java.util.Locale;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
+ * specified {@link FileListFragmentCallbacks}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class FileItemRecyclerViewAdapter extends DragItemAdapter<
@@ -104,10 +104,7 @@ public class FileItemRecyclerViewAdapter extends DragItemAdapter<
 
     public interface FileItemAdapterCallback {
         /**
-         * A confirmation callback about whether we should delete an item or not. If true, corresponding
-         * notifications to this adapter will be made after the caller deleted item from the data source. Default
-         * is false.
-         *
+         * Define how to remove an item from the file list source
          * @param position Position of the item which is going to be deleted
          * @return True means deleted  successfully
          */

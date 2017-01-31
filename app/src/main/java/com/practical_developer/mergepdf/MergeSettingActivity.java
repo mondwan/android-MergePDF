@@ -1,31 +1,52 @@
 package com.practical_developer.mergepdf;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.practical_developer.mergepdf.dummy.DummyContent;
 
-public class MergeSettingActivity extends AppCompatActivity
-        implements FileListFragment.OnListFragmentInteractionListener {
+import java.util.ArrayList;
 
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+public class MergeSettingActivity extends AppCompatActivity
+        implements FileListFragment.FileListFragmentCallbacks {
+
+    private ArrayList<Pair<Long, String>> mFileListSource;
+
+    public ArrayList<Pair<Long, String>> getFileListSource() {
+        return mFileListSource;
+    }
+
+    public boolean onDeleteFileItem(int pos) {
+        boolean ret = true;
+
+        try {
+            mFileListSource.remove(pos);
+        } catch (IndexOutOfBoundsException e) {
+            ret = false;
+        }
+
+        return ret;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Initialize mFileListSource before inflating activity below
+        mFileListSource = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            mFileListSource.add(new Pair<>(Long.valueOf(i), "Item " + i));
+        }
+
         setContentView(R.layout.activity_merge_setting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null){
+        if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
