@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.practical_developer.mergepdf.FileListFragment.OnListFragmentInteractionListener;
 import com.practical_developer.mergepdf.dummy.DummyContent.DummyItem;
@@ -23,9 +22,15 @@ import java.util.Locale;
  * TODO: Replace the implementation with code for your data type.
  */
 public class FileItemRecyclerViewAdapter extends DragItemAdapter<Pair<Long, String>, FileItemRecyclerViewAdapter.ViewHolder> {
-    public FileItemRecyclerViewAdapter(ArrayList<Pair<Long, String>> list) {
+    private FileItemAdapterCallback mFileItemAdapterCallback;
+
+    public FileItemRecyclerViewAdapter(
+        ArrayList<Pair<Long, String>> list,
+        FileItemAdapterCallback cb
+    ) {
         setHasStableIds(true);
         setItemList(list);
+        mFileItemAdapterCallback = cb;
     }
 
     @Override
@@ -80,19 +85,29 @@ public class FileItemRecyclerViewAdapter extends DragItemAdapter<Pair<Long, Stri
             Log.d(
                     POSITION_TAG,
                     String.format(
-                            Locale.US,
-                            "click at AP%d LP%d",
-                            pos,
-                            this.getLayoutPosition()
+                        Locale.US,
+                        "click at AP%d LP%d",
+                        pos,
+                        this.getLayoutPosition()
                     )
             );
-            mItemList.remove(pos);
-            notifyItemRemoved(pos);
-            notifyItemChanged(pos, mItemList.size());
-        }
 
-        @Override
-        public void onItemClicked(View view) {
+            if (mFileItemAdapterCallback.onDeleteFileItem(pos)) {
+                notifyItemRemoved(pos);
+                notifyItemChanged(pos, mItemList.size());
+            }
         }
+    }
+
+    public interface FileItemAdapterCallback {
+        /**
+         * A confirmation callback about whether we should delete an item or not. If true, corresponding
+         * notifications to this adapter will be made after the caller deleted item from the data source. Default
+         * is false.
+         *
+         * @param position Position of the item which is going to be deleted
+         * @return True means deleted  successfully
+         */
+        boolean onDeleteFileItem(int position);
     }
 }
