@@ -2,7 +2,6 @@
     <string name="app_name">Merge PDF</string>
     <string name="about_setting">About</string>
     <string name="merge_setting">Merge Setting</string>
-    <string name="add_source">Add source</string>
     <string name="merge_now">Merge Now</string>
     <string name="file_name">File Name</string>
     <string name="file_name_hint">Name your new PDF file</string>

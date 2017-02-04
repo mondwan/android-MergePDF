@@ -33,6 +33,15 @@ public class MergeSettingActivity extends AppCompatActivity
         return ret;
     }
 
+    public boolean onAddFileItem() {
+        boolean ret = true;
+
+        // TODO: Define argument for this callback
+        // TODO: Add file source to mFileListSource
+
+        return ret;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +75,6 @@ public class MergeSettingActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.add_source) {
-            return true;
-        }
         if (id == R.id.merge_now) {
             return true;
         }

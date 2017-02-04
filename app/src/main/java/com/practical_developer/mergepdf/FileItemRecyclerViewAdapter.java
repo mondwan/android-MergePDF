@@ -95,19 +95,15 @@ public class FileItemRecyclerViewAdapter extends DragItemAdapter<
                     )
             );
 
-            if (mFileItemAdapterCallback.onDeleteFileItem(pos)) {
-                notifyItemRemoved(pos);
-                notifyItemChanged(pos, mItemList.size());
-            }
+            mFileItemAdapterCallback.onClickDeleteIcon(pos);
         }
     }
 
     public interface FileItemAdapterCallback {
         /**
-         * Define how to remove an item from the file list source
+         * Click handler when users click the delete icon
          * @param position Position of the item which is going to be deleted
-         * @return True means deleted  successfully
          */
-        boolean onDeleteFileItem(int position);
+        void onClickDeleteIcon(int position);
     }
 }

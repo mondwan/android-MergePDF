@@ -3,12 +3,6 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.practical_developer.mergepdf.MergeSettingActivity">
     <item
-        android:id="@+id/add_source"
-        android:orderInCategory="100"
-        android:title="@string/add_source"
-        app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_add"/>
-    <item
         android:id="@+id/merge_now"
         android:orderInCategory="100"
         android:title="@string/merge_now"

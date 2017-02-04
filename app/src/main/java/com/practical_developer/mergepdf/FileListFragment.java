@@ -1,7 +1,9 @@
 package com.practical_developer.mergepdf;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,8 +26,9 @@ public class FileListFragment extends Fragment
     implements FileItemRecyclerViewAdapter.FileItemAdapterCallback {
 
     private FileListFragmentCallbacks mFileListFragmentCallback;
-
     private DragListView mDragListView;
+    private FileItemRecyclerViewAdapter mFileItemRecyclerViewAdapter;
+
     private static final String FILE_LIST_TAG = "File List";
 
     /**
@@ -48,20 +51,31 @@ public class FileListFragment extends Fragment
     ) {
         View view = inflater.inflate(R.layout.file_item_list, container, false);
 
-        mDragListView = (DragListView) view.findViewById(R.id.file_list);
-        mDragListView.getRecyclerView().setVerticalScrollBarEnabled(true);
-
-        mDragListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        FileItemRecyclerViewAdapter listAdapter = new FileItemRecyclerViewAdapter(
+        mFileItemRecyclerViewAdapter = new FileItemRecyclerViewAdapter(
             mFileListFragmentCallback.getFileListSource(),
             this
         );
-        mDragListView.setAdapter(listAdapter, true);
+
+        mDragListView = (DragListView) view.findViewById(R.id.file_list);
+        mDragListView.getRecyclerView().setVerticalScrollBarEnabled(true);
+        mDragListView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mDragListView.setAdapter(mFileItemRecyclerViewAdapter, true);
         mDragListView.setCanDragHorizontally(false);
+
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(
+            R.id.fab
+        );
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(FILE_LIST_TAG, "Float button click");
+                // TODO: Add a file source
+                mFileListFragmentCallback.onAddFileItem();
+            }
+        });
 
         return view;
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -80,8 +94,14 @@ public class FileListFragment extends Fragment
         mFileListFragmentCallback = null;
     }
 
-    public boolean onDeleteFileItem(int pos) {
-        return mFileListFragmentCallback.onDeleteFileItem(pos);
+    public void onClickDeleteIcon (int pos) {
+        if (mFileListFragmentCallback.onDeleteFileItem(pos)) {
+            mFileItemRecyclerViewAdapter.notifyItemRemoved(pos);
+            mFileItemRecyclerViewAdapter.notifyItemChanged(
+                pos,
+                mFileListFragmentCallback.getFileListSource().size()
+            );
+        }
     }
 
     public interface FileListFragmentCallbacks {
@@ -92,5 +112,11 @@ public class FileListFragment extends Fragment
          * @return True means deleted  successfully
          */
         boolean onDeleteFileItem(int position);
+
+        /**
+         * Define how to add  an item from the file list source
+         * @return True means deleted  successfully
+         */
+        boolean onAddFileItem();
     }
 }
