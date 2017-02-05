@@ -10,25 +10,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.practical_developer.mergepdf.FileListFragment.FileListFragmentCallbacks;
-import com.practical_developer.mergepdf.dummy.DummyContent.DummyItem;
+import com.practical_developer.mergepdf.file.FileItem;
 import com.woxthebox.draglistview.DragItemAdapter;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link FileItem} and makes a call to the
  * specified {@link FileListFragmentCallbacks}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class FileItemRecyclerViewAdapter extends DragItemAdapter<
-    Pair<Long, String>,
+    Pair<Long, FileItem>,
     FileItemRecyclerViewAdapter.ViewHolder>
 {
     private FileItemAdapterCallback mFileItemAdapterCallback;
 
     public FileItemRecyclerViewAdapter(
-        ArrayList<Pair<Long, String>> list,
+        ArrayList<Pair<Long, FileItem>> list,
         FileItemAdapterCallback cb
     ) {
         setHasStableIds(true);
@@ -49,10 +49,9 @@ public class FileItemRecyclerViewAdapter extends DragItemAdapter<
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        String text = mItemList.get(position).second;
-        holder.mFileName.setText(text);
-        holder.mFileType.setText("PDF");
-        holder.itemView.setTag(text);
+        FileItem f = mItemList.get(position).second;
+        holder.mFileName.setText(f.getFileName());
+        holder.mFileType.setText(f.getFileType());
     }
 
     @Override
@@ -60,17 +59,17 @@ public class FileItemRecyclerViewAdapter extends DragItemAdapter<
         return mItemList.get(position).first;
     }
 
-    public class ViewHolder extends DragItemAdapter.ViewHolder
+    class ViewHolder extends DragItemAdapter.ViewHolder
         implements View.OnClickListener {
-        public final View mView;
-        public final ImageView mDraggable;
-        public final TextView mFileName;
-        public final TextView mFileType;
-        public final ImageView mDeleteFile;
+        final View mView;
+        final ImageView mDraggable;
+        final TextView mFileName;
+        final TextView mFileType;
+        final ImageView mDeleteFile;
         private static final boolean mDragOnLongPress = false;
-        private static final String POSITION_TAG = "ViewHolder Position";
+        private static final String POSITION_TAG = "ViewHolderPosition";
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view, R.id.draggable_file_item, mDragOnLongPress);
 
             mView = view;

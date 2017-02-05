@@ -8,16 +8,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.practical_developer.mergepdf.dummy.DummyContent;
+import com.practical_developer.mergepdf.file.FileItem;
 
 import java.util.ArrayList;
 
 public class MergeSettingActivity extends AppCompatActivity
         implements FileListFragment.FileListFragmentCallbacks {
 
-    private ArrayList<Pair<Long, String>> mFileListSource;
+    private ArrayList<Pair<Long, FileItem>> mFileListSource;
+    private static final String MERGE_SETTING_TAG = "MergeSetting";
 
-    public ArrayList<Pair<Long, String>> getFileListSource() {
+    public ArrayList<Pair<Long, FileItem>> getFileListSource() {
         return mFileListSource;
     }
 
@@ -33,13 +34,39 @@ public class MergeSettingActivity extends AppCompatActivity
         return ret;
     }
 
-    public boolean onAddFileItem() {
-        boolean ret = true;
+    public int onAddFileItem(FileItem item) {
+        Long id = (long) 0;
+        boolean hasFound = true;
 
-        // TODO: Define argument for this callback
-        // TODO: Add file source to mFileListSource
+        // Loop from 0 until there is a single ID does not used
+        while (hasFound) {
+            hasFound = false;
+            for (Pair<Long, FileItem> p : mFileListSource) {
+                Long _id = p.first;
+                if (_id.longValue() == id.longValue()) {
+                    id++;
+                    hasFound = true;
+                    break;
+                }
+            }
+        }
 
-        return ret;
+        int index = mFileListSource.size();
+
+        Log.d(
+            MERGE_SETTING_TAG,
+            String.format(
+                "File |%s| type |%s| with id |%d| at |%d|",
+                item.getFileName(),
+                item.getFileType(),
+                id,
+                index
+            )
+        );
+
+        mFileListSource.add(new Pair<>(id, item));
+
+        return index;
     }
 
     @Override
@@ -48,9 +75,6 @@ public class MergeSettingActivity extends AppCompatActivity
 
         // Initialize mFileListSource before inflating activity below
         mFileListSource = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            mFileListSource.add(new Pair<>(Long.valueOf(i), "Item " + i));
-        }
 
         setContentView(R.layout.activity_merge_setting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
