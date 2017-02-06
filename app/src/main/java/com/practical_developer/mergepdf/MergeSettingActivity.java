@@ -145,13 +145,19 @@ public class MergeSettingActivity extends AppCompatActivity
                 );
                 try {
                     PDDocument outPDF = new PDDocument();
+
                     PDFMergerUtility merger = new PDFMergerUtility();
                     for (PDDocument d : pdfs) {
                         merger.appendDocument(outPDF, d);
                     }
                     merger.mergeDocuments();
+
                     outPDF.save(outputPath);
                     outPDF.close();
+
+                    for (PDDocument d : pdfs) {
+                        d.close();
+                    }
                 } catch (IOException e) {
                     String err = String.format(
                         "Unable to create a new PDF |%s|",
