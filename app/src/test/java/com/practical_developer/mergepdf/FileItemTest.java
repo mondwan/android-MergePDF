@@ -1,5 +1,8 @@
 package com.practical_developer.mergepdf;
 
+import com.practical_developer.mergepdf.file.FileItem;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -10,8 +13,30 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class FileItemTest {
+    FileItem mFileItem = null;
+
+    @Before
+    public void setup() throws Exception {
+        mFileItem = new FileItem("File1", "File Type 1", null);
+    }
+
     @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+    public void testToString() throws Exception {
+        assertEquals("File1 File Type 1", mFileItem.toString());
+    }
+
+    @Test
+    public void testGetFileName () throws Exception {
+        assertEquals("File1", mFileItem.getFileName());
+    }
+
+    @Test
+    public void testGetFileType () throws Exception {
+        assertEquals("File Type 1", mFileItem.getFileType());
+    }
+
+    @Test
+    public void testGetUri () throws Exception {
+        assertNull(mFileItem.getUri());
     }
 }
