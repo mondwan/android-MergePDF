@@ -13,3 +13,4 @@ android:
     - extra-android-support
     # SDK Version
     - android-15
+    - android-25
