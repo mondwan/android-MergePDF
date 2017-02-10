@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class FileItemTest {
-    FileItem mFileItem = null;
+    private FileItem mFileItem = null;
 
     @Before
     public void setup() throws Exception {

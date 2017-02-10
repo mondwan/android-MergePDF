@@ -2,11 +2,6 @@ package com.practical_developer.mergepdf.file;
 
 import android.net.Uri;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Store essential content  of a "file" which will be presented in FileListFragment
  */

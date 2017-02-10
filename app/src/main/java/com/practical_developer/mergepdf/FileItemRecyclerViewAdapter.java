@@ -19,12 +19,13 @@ import java.util.Locale;
 /**
  * {@link RecyclerView.Adapter} that can display a {@link FileItem} and makes a call to the
  * specified {@link FileListFragmentCallbacks}.
- * TODO: Replace the implementation with code for your data type.
  */
+@SuppressWarnings("CanBeFinal")
 public class FileItemRecyclerViewAdapter extends DragItemAdapter<
     Pair<Long, FileItem>,
     FileItemRecyclerViewAdapter.ViewHolder>
 {
+    @SuppressWarnings("CanBeFinal")
     private FileItemAdapterCallback mFileItemAdapterCallback;
 
     public FileItemRecyclerViewAdapter(
@@ -61,7 +62,9 @@ public class FileItemRecyclerViewAdapter extends DragItemAdapter<
 
     class ViewHolder extends DragItemAdapter.ViewHolder
         implements View.OnClickListener {
+        @SuppressWarnings("unused")
         final View mView;
+        @SuppressWarnings("unused")
         final ImageView mDraggable;
         final TextView mFileName;
         final TextView mFileType;

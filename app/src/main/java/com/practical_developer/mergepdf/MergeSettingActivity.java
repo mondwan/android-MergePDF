@@ -20,7 +20,6 @@ import com.tom_roush.pdfbox.util.PDFBoxResourceLoader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MergeSettingActivity extends AppCompatActivity
         implements FileListFragment.FileListFragmentCallbacks {
@@ -137,6 +136,7 @@ public class MergeSettingActivity extends AppCompatActivity
                 );
 
                 // Make sure we have create a directory for our PDF
+                //noinspection ResultOfMethodCallIgnored
                 outputDir.mkdirs();
 
                 File outputPath = new File(

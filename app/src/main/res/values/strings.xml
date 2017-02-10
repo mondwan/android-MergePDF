@@ -5,4 +5,6 @@
     <string name="merge_now">Merge Now</string>
     <string name="file_name">File Name</string>
     <string name="file_name_hint">Name your new PDF file</string>
+    <string name="the_draggable_icon">The draggable icon</string>
+    <string name="the_delete_icon">The delete icon</string>
 </resources>

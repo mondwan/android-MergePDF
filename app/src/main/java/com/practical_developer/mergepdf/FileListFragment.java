@@ -46,11 +46,6 @@ public class FileListFragment extends Fragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(
             LayoutInflater inflater,
             ViewGroup container,
@@ -231,6 +226,7 @@ public class FileListFragment extends Fragment
          * @param item File item selected by users
          * @return Position of the item in the array
          */
+        @SuppressWarnings("UnusedReturnValue")
         int onAddFileItem(FileItem item);
     }
 }
