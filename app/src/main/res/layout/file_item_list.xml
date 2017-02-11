@@ -4,18 +4,25 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.woxthebox.draglistview.DragListView
-        android:id="@+id/file_list"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content">
+        <com.woxthebox.draglistview.DragListView
+            android:id="@+id/file_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="90"
         />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addSource"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:tint="@android:color/white"
-        app:backgroundTint="@android:color/holo_blue_light"/>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addSource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:layout_gravity="bottom|end"
+            app:srcCompat="@android:drawable/ic_input_add"
+            android:tint="@android:color/white"
+            app:backgroundTint="@android:color/holo_blue_light"/>
+    </LinearLayout>
 </FrameLayout>
