@@ -17,9 +17,17 @@ android:
     - android-15
     - android-25
 
+env:
+  - LINT_REPORT_DIR=app/build/outputs DEBUG_REPORT_DIR=app/build/reports/tests/debug
+
 # Emulator Management: Create, Start and Wait
 before_script:
   - echo no | android create avd --force -n test -t android-15 --abi armeabi-v7a
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
+
+# Cat results
+after_failure:
+  - cat $TRAVIS_BUILD_DIR/$LINT_REPORT_DIR/lint-results-debug.html
+  - cat $TRAVIS_BUILD_DIR/$DEBUG_REPORT_DIR/index.html

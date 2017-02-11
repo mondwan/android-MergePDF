@@ -17,7 +17,7 @@ public class FileItemTest {
 
     @Before
     public void setup() throws Exception {
-        mFileItem = new FileItem("File1", "File Type 1", null);
+        mFileItem = new FileItem("File 1", "File Type 1", null);
     }
 
     @Test
