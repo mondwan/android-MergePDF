@@ -67,7 +67,7 @@ public class FileListFragment extends Fragment
         mDragListView.setCanDragHorizontally(false);
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(
-            R.id.fab
+            R.id.addSource
         );
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
