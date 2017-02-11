@@ -4,10 +4,8 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
 import android.widget.TextView;
 
-import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,7 +40,7 @@ public class MainActivityTest {
     @Test
     public void switchToMergeSetting() throws Exception {
         // Click the floating button in order to switch to merge setting
-        onView(withId(R.id.startMerging)).perform(click());
+        onView(withId(R.id.createPDF)).perform(click());
 
         // Verify the title in the new activity
         String toolBarTitle =
