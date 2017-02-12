@@ -4,11 +4,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -65,6 +70,28 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.about_setting) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(
+                this,
+                R.style.AppTheme_AlertDialog
+            );
+            SpannableString s = new SpannableString(
+                getApplicationContext().getText(R.string.about_content)
+            );
+            Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES);
+
+            AlertDialog d = builder
+                .setTitle(R.string.about_setting)
+                .setMessage(s)
+                .setPositiveButton(R.string.button_ok, null)
+                .setCancelable(true)
+                .create();
+            d.show();
+
+            TextView t = (TextView) d.findViewById(android.R.id.message);
+            if (t != null) {
+                t.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+
             return true;
         }
 

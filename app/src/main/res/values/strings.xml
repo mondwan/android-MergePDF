@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Merge PDF</string>
+    <string name="button_ok">OK</string>
     <string name="about_setting">About</string>
+    <string name="about_content">
+        An open source application for merging PDFs together.\n\n
+        Author: Mond WAN &lt;mondwan.1015@gmail.com&gt;
+    </string>
     <string name="merge_setting">Merge Setting</string>
     <string name="merge_now">Merge Now</string>
     <string name="file_name">File Name</string>

@@ -10,9 +10,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -53,5 +56,19 @@ public class MainActivityTest {
                 withParent(withId(R.id.toolbar))
             )
         ).check(matches(withText(toolBarTitle)));
+    }
+
+    @Test
+    public void showAbout() throws Exception {
+        // It should be able to show author information in a dialog
+        openActionBarOverflowOrOptionsMenu(
+            getInstrumentation().getTargetContext()
+        );
+
+        // Click about setting dialog
+        onView(withText(R.string.about_setting)).perform(click());
+
+        // Check out dialog
+        onView(withText(R.string.about_content)).check(matches(isDisplayed()));
     }
 }
