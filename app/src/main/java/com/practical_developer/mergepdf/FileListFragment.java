@@ -10,10 +10,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.practical_developer.mergepdf.file.FileItem;
@@ -38,6 +40,28 @@ public class FileListFragment extends Fragment
     private static final String FILE_LIST_TAG = "FileList";
     private static final int FILE_SELECT_CODE = 0;
 
+    private TextView mEmptyView;
+    private DragListView mDragListView;
+
+    private RecyclerView.AdapterDataObserver mEmptyObserver =
+        new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                RecyclerView.Adapter<?> adapter = mDragListView.getAdapter();
+                if(adapter != null && mEmptyView != null) {
+                    if(adapter.getItemCount() == 0) {
+                        mEmptyView.setVisibility(View.VISIBLE);
+                        mDragListView.setVisibility(View.GONE);
+                    }
+                    else {
+                        mEmptyView.setVisibility(View.GONE);
+                        mDragListView.setVisibility(View.VISIBLE);
+                    }
+                }
+
+            }
+        };
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -53,18 +77,26 @@ public class FileListFragment extends Fragment
     ) {
         View view = inflater.inflate(R.layout.file_item_list, container, false);
 
+        mEmptyView = (TextView) view.findViewById(R.id.empty_view);
+
         mFileItemRecyclerViewAdapter = new FileItemRecyclerViewAdapter(
             mFileListFragmentCallback.getFileListSource(),
             this
         );
+        mFileItemRecyclerViewAdapter.registerAdapterDataObserver(
+            mEmptyObserver
+        );
 
-        DragListView mDragListView = (DragListView) view.findViewById(
+        mDragListView = (DragListView) view.findViewById(
             R.id.file_list
         );
         mDragListView.getRecyclerView().setVerticalScrollBarEnabled(true);
         mDragListView.setLayoutManager(new LinearLayoutManager(getContext()));
         mDragListView.setAdapter(mFileItemRecyclerViewAdapter, true);
         mDragListView.setCanDragHorizontally(false);
+
+        // Manually runs visibility checking on first run
+        mEmptyObserver.onChanged();
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(
             R.id.addSource
@@ -209,6 +241,8 @@ public class FileListFragment extends Fragment
                 pos,
                 mFileListFragmentCallback.getFileListSource().size()
             );
+            // Manually checking visibility after removing a file item
+            mEmptyObserver.onChanged();
         }
     }
 
