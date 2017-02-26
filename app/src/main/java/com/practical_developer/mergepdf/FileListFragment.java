@@ -99,7 +99,7 @@ public class FileListFragment extends Fragment
         mEmptyObserver.onChanged();
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(
-            R.id.addSource
+            R.id.add_source
         );
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +165,6 @@ public class FileListFragment extends Fragment
         );
 
         if (requestCode == FILE_SELECT_CODE) {
-
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 Uri uri = data.getData();

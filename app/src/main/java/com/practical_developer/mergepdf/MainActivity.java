@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(
-            R.id.createPDF
+            R.id.create_pdf
         );
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
