@@ -55,7 +55,7 @@ public class MergeSettingActivityTest {
     @Before
     public void switchToMergeSetting() throws Exception {
         // Click the floating button in order to switch to merge setting
-        onView(withId(R.id.createPDF)).perform(click());
+        onView(withId(R.id.create_pdf)).perform(click());
     }
 
     @Test
@@ -80,7 +80,7 @@ public class MergeSettingActivityTest {
         );
 
         // Click the add file source button
-        onView(withId(R.id.addSource)).perform(click());
+        onView(withId(R.id.add_source)).perform(click());
 
         // Verify there is intent for selecting a file browser
         // and there is an intent for select a pdf

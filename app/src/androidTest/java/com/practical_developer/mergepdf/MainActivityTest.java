@@ -43,7 +43,7 @@ public class MainActivityTest {
     @Test
     public void switchToMergeSetting() throws Exception {
         // Click the floating button in order to switch to merge setting
-        onView(withId(R.id.createPDF)).perform(click());
+        onView(withId(R.id.create_pdf)).perform(click());
 
         // Verify the title in the new activity
         String toolBarTitle =
