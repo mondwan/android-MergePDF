@@ -15,12 +15,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.practical_developer.mergepdf.file.FileItem;
 import com.woxthebox.draglistview.DragListView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
@@ -176,39 +178,79 @@ public class FileListFragment extends Fragment
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * Check uri starts with file:// and that file existed
+     * @param uri URI
+     * @return boolean
+     */
+    private boolean isFileExists(Uri uri) {
+        String path = uri.getPath();
+        File f = new File(path);
+
+        return uri.getScheme().equals("file") && f.exists();
+    }
+
     private FileItem createFileItemFromURI(Uri uri) {
-        // Get meta information for a given file inside the uri
-        Cursor c = getContext().getContentResolver().query(
-            uri,
-            null,
-            null,
-            null,
-            null
-        );
+        Log.d(FILE_LIST_TAG, String.format("Receive uri |%s|", uri.toString()));
 
         // Reference to the final created file item
         FileItem ret = null;
 
-        if (c != null) {
-            // Get index of the file name from cursor
-            int nameIndex = c.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        // Reference to the meta data
+        String fileName = null;
+        String fileType;
+        String mime = null;
 
-            // Reset the cursor such that we can fetch file name by index
-            c.moveToFirst();
+        if (isFileExists(uri)) {
+            // URI from JUNIT test is file://
+            File f = new File(uri.getPath());
+            fileName = f.getName();
 
-            // Get file name by using the given index
-            String fileName = c.getString(nameIndex);
+            String fileExtension = MimeTypeMap.getFileExtensionFromUrl(uri
+                .toString()
+            );
+            mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+                fileExtension.toLowerCase()
+            );
+        } else {
+            // Get meta information for a given file inside the uri
+            Cursor c = getContext().getContentResolver().query(
+                uri,
+                null,
+                null,
+                null,
+                null
+            );
 
-            // Get the file type from mime
-            String mime = getContext().getContentResolver().getType(uri);
-            String fileType = mime;
+            if (c != null) {
+                // Get index of the file name from cursor
+                int nameIndex = c.getColumnIndex(
+                    OpenableColumns.DISPLAY_NAME
+                );
+
+                // Reset the cursor such that we can fetch file name by index
+                c.moveToFirst();
+
+                // Get file name by using the given index
+                fileName = c.getString(nameIndex);
+
+                // Get the file type from mime
+                mime = getContext().getContentResolver().getType(uri);
+
+                // Close the cursor
+                c.close();
+            }
+        }
+
+        if (fileName != null) {
             if (mime != null) {
                 int lastSlash = mime.lastIndexOf('/');
                 fileType = mime.substring(lastSlash + 1);
+            } else {
+                fileType = "unknown";
             }
 
-            // Close the cursor
-            c.close();
+            fileType = fileType.toUpperCase();
 
             Log.d(
                 FILE_LIST_TAG,
@@ -224,7 +266,7 @@ public class FileListFragment extends Fragment
             Log.e(
                 FILE_LIST_TAG,
                 String.format(
-                    "Unable to get a cursor from given uri |%s|",
+                    "Unable to get meta information given uri |%s|",
                     uri.toString()
                 )
             );
