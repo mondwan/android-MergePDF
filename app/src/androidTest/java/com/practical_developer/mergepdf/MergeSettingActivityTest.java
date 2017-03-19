@@ -100,11 +100,11 @@ public class MergeSettingActivityTest {
     ) throws IOException {
         // Short hand for accessing different context
         Context ourContext = InstrumentationRegistry.getContext();
-        // Context targetContext = InstrumentationRegistry.getTargetContext();
+        Context targetContext = InstrumentationRegistry.getTargetContext();
 
         // Convert Asset to File by copying such file to our cache directory
         InputStream input = ourContext.getResources().getAssets().open(f);
-        File f2 = new File(ourContext.getExternalCacheDir() +"/" + f);
+        File f2 = new File(targetContext.getCacheDir() +"/" + f);
         writeBytesToFile(input, f2);
 
         // Get an uri from such file object
