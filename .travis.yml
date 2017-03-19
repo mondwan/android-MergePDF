@@ -18,7 +18,7 @@ android:
     - android-25
 
 env:
-  - LINT_REPORT_DIR=app/build/outputs DEBUG_REPORT_DIR=app/build/reports/tests/debug
+  - LINT_REPORT_DIR=app/build/outputs DEBUG_TEST_REPORT_DIR=app/build/reports/tests/debug DEBUG_INSTRUMENT_TEST_REPORT_DIR=app/build/reports/androidTests/connected
 
 # Emulator Management: Create, Start and Wait
 before_script:
@@ -33,4 +33,5 @@ script:
 # Cat results
 after_failure:
   - cat $TRAVIS_BUILD_DIR/$LINT_REPORT_DIR/lint-results-debug.html
-  - cat $TRAVIS_BUILD_DIR/$DEBUG_REPORT_DIR/index.html
+  - cat $TRAVIS_BUILD_DIR/$DEBUG_TEST_REPORT_DIR/index.html
+  - cat $TRAVIS_BUILD_DIR/$DEBUG_INSTRUMENT_TEST_REPORT_DIR/index.html
