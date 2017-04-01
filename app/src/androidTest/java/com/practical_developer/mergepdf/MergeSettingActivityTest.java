@@ -8,10 +8,6 @@ import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v4.util.Pair;
-import android.util.Log;
-
-import com.practical_developer.mergepdf.file.FileItem;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -22,11 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -41,7 +33,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
@@ -54,8 +45,8 @@ import static org.hamcrest.Matchers.not;
 @RunWith(AndroidJUnit4.class)
 public class MergeSettingActivityTest {
 
-    String PDF_ONE = "one.pdf";
-    String PDF_TWO = "two.pdf";
+    private String PDF_ONE = "one.pdf";
+    private String PDF_TWO = "two.pdf";
 
     // Navigation from main activity is required for this activity
     @Rule
@@ -173,6 +164,45 @@ public class MergeSettingActivityTest {
     public void testEmptyFileListByDefault() throws Exception {
         onView(withId(R.id.empty_view)).check(
             matches(withText(R.string.empty_pdf_list))
+        );
+    }
+
+    @Test
+    public void changePDFSourceOrder() throws Exception {
+        // 1. Add PDF source: one.pdf and two.pdf
+        intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(
+            pickPDF(PDF_ONE)
+        );
+
+        // Click the add file source button
+        onView(withId(R.id.add_source)).perform(click());
+
+        intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(
+            pickPDF(PDF_TWO)
+        );
+
+        // Click the add file source button
+        onView(withId(R.id.add_source)).perform(click());
+
+        // 2. Verify the existing order
+        onView(withId(R.id.file_list)).check(
+            new FileItemPositionAssertion(PDF_ONE, 0)
+        );
+        onView(withId(R.id.file_list)).check(
+            new FileItemPositionAssertion(PDF_TWO, 1)
+        );
+
+        // 3. Swap one.pdf two.pdf
+        onView(withId(R.id.file_list)).perform(
+            new MoveFileItemAction(0, 1)
+        );
+
+        // 4. Verify the order
+        onView(withId(R.id.file_list)).check(
+            new FileItemPositionAssertion(PDF_ONE, 1)
+        );
+        onView(withId(R.id.file_list)).check(
+            new FileItemPositionAssertion(PDF_TWO, 0)
         );
     }
 }
